@@ -107,8 +107,8 @@ const GoogleCalendarView = ({ onDateSelect, selectedDate, availableSlots = [], o
     setLoading(true);
     try {
       // First, get the dentist's schedule/availability settings
-      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://109.123.227.37:5000';
-      const dentistResponse = await fetch(`${apiBaseUrl}/api/dentists/${dentistId}`);
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const dentistResponse = await fetch(`${apiBaseUrl}/dentists/${dentistId}`);
       let dentistSchedule = null;
       
       if (dentistResponse.ok) {
@@ -138,7 +138,7 @@ const GoogleCalendarView = ({ onDateSelect, selectedDate, availableSlots = [], o
         } else {
           // Dentist is available on this day, check for specific time slots
           try {
-            const response = await fetch(`${apiBaseUrl}/api/dentists/${dentistId}/availability?date=${dateStr}`);
+            const response = await fetch(`${apiBaseUrl}/dentists/${dentistId}/availability?date=${dateStr}`);
             if (response.ok) {
               const data = await response.json();
               availability[dateStr] = data.available_slots?.length > 0;
