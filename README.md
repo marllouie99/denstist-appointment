@@ -48,32 +48,50 @@ A full-stack dentist appointment booking system with payment integration, Google
 
 ## Deployment
 
-### Railway (Backend)
+### Railway (Both Frontend & Backend)
 
-1. Create a new project on [Railway](https://railway.app)
-2. Connect your GitHub repository
-3. Add the following environment variables:
-   - `PORT` (Railway provides this automatically)
-   - `NODE_ENV=production`
-   - `FRONTEND_URL` (your frontend URL)
-   - `SUPABASE_URL`
-   - `SUPABASE_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-   - `PAYPAL_CLIENT_ID`
-   - `PAYPAL_CLIENT_SECRET`
-   - `PAYPAL_MODE`
-   - `GOOGLE_CLIENT_ID` (optional)
-   - `GOOGLE_CLIENT_SECRET` (optional)
-   - `GOOGLE_REDIRECT_URI` (optional)
+This project is configured to deploy both frontend and backend on Railway as separate services.
 
-### Vercel/Netlify (Frontend)
+#### Step 1: Create Railway Project
+1. Go to [Railway](https://railway.app) and create a new project
+2. Connect your GitHub repository `marllouie99/denstist-appointment`
 
-1. Build command: `cd frontend && npm install && npm run build`
-2. Output directory: `frontend/dist`
-3. Add environment variables:
-   - `VITE_API_URL` (your Railway backend URL)
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
+#### Step 2: Deploy Backend Service
+1. Click "New Service" → "GitHub Repo"
+2. Select your repository
+3. **Root Directory**: Set to `backend`
+4. Railway will auto-detect `backend/railway.json` and `backend/nixpacks.toml`
+5. Add environment variables:
+   ```
+   NODE_ENV=production
+   FRONTEND_URL=https://your-frontend.railway.app
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_KEY=your_supabase_anon_key
+   SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+   PAYPAL_CLIENT_ID=your_paypal_client_id
+   PAYPAL_CLIENT_SECRET=your_paypal_client_secret
+   PAYPAL_MODE=sandbox
+   GOOGLE_CLIENT_ID=your_google_client_id (optional)
+   GOOGLE_CLIENT_SECRET=your_google_client_secret (optional)
+   GOOGLE_REDIRECT_URI=https://your-backend.railway.app/api/auth/google/callback (optional)
+   ```
+6. Generate domain and copy the URL
+
+#### Step 3: Deploy Frontend Service
+1. In the same Railway project, click "New Service" → "GitHub Repo"
+2. Select your repository again
+3. **Root Directory**: Set to `frontend`
+4. Railway will auto-detect `frontend/railway.json` and `frontend/nixpacks.toml`
+5. Add environment variables:
+   ```
+   VITE_API_URL=https://your-backend.railway.app
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+6. Generate domain for the frontend
+
+#### Step 4: Update CORS
+After both services are deployed, update the backend CORS settings in `backend/server.js` to include your frontend Railway URL, then commit and push.
 
 ## Local Development
 
