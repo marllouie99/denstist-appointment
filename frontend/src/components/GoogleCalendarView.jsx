@@ -170,8 +170,8 @@ const GoogleCalendarView = ({ onDateSelect, selectedDate, availableSlots = [], o
       const dateStr = format(date, 'yyyy-MM-dd');
       console.log(`🔍 Fetching detailed slots for ${dateStr}`);
       
-      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://109.123.227.37:5000';
-      const response = await fetch(`${apiBaseUrl}/api/dentists/${dentistId}/availability?date=${dateStr}`);
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const response = await fetch(`${apiBaseUrl}/dentists/${dentistId}/availability?date=${dateStr}`);
       if (response.ok) {
         const data = await response.json();
         console.log('📋 Daily slots response:', data);
